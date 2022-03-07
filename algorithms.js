@@ -151,8 +151,30 @@ var printRangeUpDown = function(min, max){
 // value, a left and a right, return the sum of all of the values.
 // remember, binary tree's are different from binary search trees!
 // you'll need to create a binary tree constructor!
+function BinaryTree(val, left, right) {
+  this.val = val;
+  this.left = left || null;
+  this.right = right || null;
+
+}
 
 var binaryTreeSum = function(tree){
+  let sum = 0;
+  if (!tree.val) {
+    return 0;
+  } else {
+    sum += tree.val;
+  }
+  if(tree.left) {
+    sum += binaryTreeSum(tree.left);
+  }
+  if(tree.right) {
+    sum += binaryTreeSum(tree.right);
+  }
+
+  return sum;
+
+
 
 };
 
@@ -175,6 +197,53 @@ var binaryTreeSum = function(tree){
 //                    8
 
 // you'll need to create a binary search tree constructor!
+function BSTNode(val, left, right) {
+  this.val = val;
+  this.left = left || null;
+  this.right = right || null;
+}
 var arrayToBinarySearchTree = function(array){
 
+  if(array.length === 0) {
+    return null;
+  }
+  return helper(array, 0, array.length-1);
+
+  //helper function:
+
+  function helper(array, lowIndex, highIndex) {
+    if(lowIndex > highIndex) {
+      return null;
+    }
+    var midIndex = Math.floor((lowIndex + highIndex)/2);
+    var node = new BSTNode(array[midIndex]);
+    node.left = helper(array, lowIndex, midIndex-1);
+    node.right = helper(array, midIndex+1, highIndex);
+    return node;
+  }
+
 };
+
+/*
+if array = [1, 3, 7, 8, 10, 30];
+the tree we will get is:
+BSTNode {
+  val: 7,
+  left: BSTNode {
+    val: 1,
+    left: null,
+    right: BSTNode { val: 3, left: null, right: null }
+  },
+  right: BSTNode {
+    val: 10,
+    left: BSTNode { val: 8, left: null, right: null },
+    right: BSTNode { val: 30, left: null, right: null }
+  }
+}
+
+          7
+    1           10
+       3      8     30
+
+
+*/
